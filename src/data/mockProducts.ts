@@ -1,6 +1,20 @@
 import type { NormalizedProduct, Review } from "@/types/product";
 
-const IMG = (id: number) => `https://images.unsplash.com/photo-${id}?w=600&h=600&fit=crop&q=80`;
+// Use reliable placeholder images
+const BEAUTY_IMGS = [
+  "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=600&h=600&fit=crop&q=80",
+  "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=600&h=600&fit=crop&q=80",
+  "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=600&h=600&fit=crop&q=80",
+  "https://images.unsplash.com/photo-1608248597279-f99d160bfcbc?w=600&h=600&fit=crop&q=80",
+  "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=600&h=600&fit=crop&q=80",
+  "https://images.unsplash.com/photo-1570194065650-d99fb4bedf0a?w=600&h=600&fit=crop&q=80",
+  "https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=600&h=600&fit=crop&q=80",
+  "https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?w=600&h=600&fit=crop&q=80",
+  "https://images.unsplash.com/photo-1583241800698-e8ab01830a07?w=600&h=600&fit=crop&q=80",
+  "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=600&h=600&fit=crop&q=80",
+  "https://images.unsplash.com/photo-1611930022073-b7a4ba5fcccd?w=600&h=600&fit=crop&q=80",
+  "https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?w=600&h=600&fit=crop&q=80",
+];
 
 export const mockProducts: NormalizedProduct[] = [
   {
