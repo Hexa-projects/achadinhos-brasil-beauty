@@ -15,6 +15,8 @@ import { Route as BuscarRouteImport } from './routes/buscar'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProdutoSlugRouteImport } from './routes/produto.$slug'
+import { Route as ContaPedidosRouteImport } from './routes/conta.pedidos'
+import { Route as ContaDadosRouteImport } from './routes/conta.dados'
 import { Route as CheckoutSucessoRouteImport } from './routes/checkout.sucesso'
 import { Route as CheckoutCanceladoRouteImport } from './routes/checkout.cancelado'
 
@@ -48,6 +50,16 @@ const ProdutoSlugRoute = ProdutoSlugRouteImport.update({
   path: '/produto/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ContaPedidosRoute = ContaPedidosRouteImport.update({
+  id: '/pedidos',
+  path: '/pedidos',
+  getParentRoute: () => ContaRoute,
+} as any)
+const ContaDadosRoute = ContaDadosRouteImport.update({
+  id: '/dados',
+  path: '/dados',
+  getParentRoute: () => ContaRoute,
+} as any)
 const CheckoutSucessoRoute = CheckoutSucessoRouteImport.update({
   id: '/sucesso',
   path: '/sucesso',
@@ -64,9 +76,11 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/buscar': typeof BuscarRoute
   '/checkout': typeof CheckoutRouteWithChildren
-  '/conta': typeof ContaRoute
+  '/conta': typeof ContaRouteWithChildren
   '/checkout/cancelado': typeof CheckoutCanceladoRoute
   '/checkout/sucesso': typeof CheckoutSucessoRoute
+  '/conta/dados': typeof ContaDadosRoute
+  '/conta/pedidos': typeof ContaPedidosRoute
   '/produto/$slug': typeof ProdutoSlugRoute
 }
 export interface FileRoutesByTo {
@@ -74,9 +88,11 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/buscar': typeof BuscarRoute
   '/checkout': typeof CheckoutRouteWithChildren
-  '/conta': typeof ContaRoute
+  '/conta': typeof ContaRouteWithChildren
   '/checkout/cancelado': typeof CheckoutCanceladoRoute
   '/checkout/sucesso': typeof CheckoutSucessoRoute
+  '/conta/dados': typeof ContaDadosRoute
+  '/conta/pedidos': typeof ContaPedidosRoute
   '/produto/$slug': typeof ProdutoSlugRoute
 }
 export interface FileRoutesById {
@@ -85,9 +101,11 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/buscar': typeof BuscarRoute
   '/checkout': typeof CheckoutRouteWithChildren
-  '/conta': typeof ContaRoute
+  '/conta': typeof ContaRouteWithChildren
   '/checkout/cancelado': typeof CheckoutCanceladoRoute
   '/checkout/sucesso': typeof CheckoutSucessoRoute
+  '/conta/dados': typeof ContaDadosRoute
+  '/conta/pedidos': typeof ContaPedidosRoute
   '/produto/$slug': typeof ProdutoSlugRoute
 }
 export interface FileRouteTypes {
@@ -100,6 +118,8 @@ export interface FileRouteTypes {
     | '/conta'
     | '/checkout/cancelado'
     | '/checkout/sucesso'
+    | '/conta/dados'
+    | '/conta/pedidos'
     | '/produto/$slug'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -110,6 +130,8 @@ export interface FileRouteTypes {
     | '/conta'
     | '/checkout/cancelado'
     | '/checkout/sucesso'
+    | '/conta/dados'
+    | '/conta/pedidos'
     | '/produto/$slug'
   id:
     | '__root__'
@@ -120,6 +142,8 @@ export interface FileRouteTypes {
     | '/conta'
     | '/checkout/cancelado'
     | '/checkout/sucesso'
+    | '/conta/dados'
+    | '/conta/pedidos'
     | '/produto/$slug'
   fileRoutesById: FileRoutesById
 }
@@ -128,7 +152,7 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   BuscarRoute: typeof BuscarRoute
   CheckoutRoute: typeof CheckoutRouteWithChildren
-  ContaRoute: typeof ContaRoute
+  ContaRoute: typeof ContaRouteWithChildren
   ProdutoSlugRoute: typeof ProdutoSlugRoute
 }
 
@@ -176,6 +200,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProdutoSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/conta/pedidos': {
+      id: '/conta/pedidos'
+      path: '/pedidos'
+      fullPath: '/conta/pedidos'
+      preLoaderRoute: typeof ContaPedidosRouteImport
+      parentRoute: typeof ContaRoute
+    }
+    '/conta/dados': {
+      id: '/conta/dados'
+      path: '/dados'
+      fullPath: '/conta/dados'
+      preLoaderRoute: typeof ContaDadosRouteImport
+      parentRoute: typeof ContaRoute
+    }
     '/checkout/sucesso': {
       id: '/checkout/sucesso'
       path: '/sucesso'
@@ -207,12 +245,24 @@ const CheckoutRouteWithChildren = CheckoutRoute._addFileChildren(
   CheckoutRouteChildren,
 )
 
+interface ContaRouteChildren {
+  ContaDadosRoute: typeof ContaDadosRoute
+  ContaPedidosRoute: typeof ContaPedidosRoute
+}
+
+const ContaRouteChildren: ContaRouteChildren = {
+  ContaDadosRoute: ContaDadosRoute,
+  ContaPedidosRoute: ContaPedidosRoute,
+}
+
+const ContaRouteWithChildren = ContaRoute._addFileChildren(ContaRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRoute: AuthRoute,
   BuscarRoute: BuscarRoute,
   CheckoutRoute: CheckoutRouteWithChildren,
-  ContaRoute: ContaRoute,
+  ContaRoute: ContaRouteWithChildren,
   ProdutoSlugRoute: ProdutoSlugRoute,
 }
 export const routeTree = rootRouteImport
