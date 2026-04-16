@@ -17,7 +17,11 @@ export function ProductGallery({ images, title }: { images: string[]; title: str
       <div ref={containerRef} onScroll={handleScroll} className="flex snap-x snap-mandatory overflow-x-auto scrollbar-hide sm:grid sm:grid-cols-2 sm:gap-2 sm:overflow-visible">
         {images.map((src, i) => (
           <motion.div key={i} className="w-full shrink-0 snap-center" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: i * 0.1 }}>
-            <img src={src} alt={`${title} - imagem ${i + 1}`} className="aspect-square w-full rounded-2xl bg-muted object-cover sm:rounded-xl" loading={i > 0 ? "lazy" : "eager"} />
+            {/\.(mp4|webm)$/i.test(src) ? (
+              <video src={src} autoPlay muted loop playsInline className="aspect-square w-full rounded-2xl bg-muted object-cover sm:rounded-xl" />
+            ) : (
+              <img src={src} alt={`${title} - imagem ${i + 1}`} className="aspect-square w-full rounded-2xl bg-muted object-cover sm:rounded-xl" loading={i > 0 ? "lazy" : "eager"} />
+            )}
           </motion.div>
         ))}
       </div>

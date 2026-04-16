@@ -20,6 +20,8 @@ export interface NormalizedProduct {
   howToUse?: string[];
   technicalSpecs?: Record<string, string>;
   stock?: number;
+  inventoryQuantity?: number;
+  droplinkifyId?: string;
   source?: "supabase" | "droplinkfy" | "mock";
 }
 
@@ -41,6 +43,7 @@ export interface Profile {
   email?: string;
   phone?: string;
   avatarUrl?: string;
+  stripeCustomerId?: string;
 }
 
 export interface Order {
@@ -52,6 +55,7 @@ export interface Order {
   paymentStatus: "pending" | "paid" | "failed" | "canceled";
   orderStatus: "pending" | "processing" | "shipped" | "delivered" | "canceled";
   stripeSessionId?: string;
+  trackingCode?: string;
   items: OrderItem[];
 }
 
@@ -61,6 +65,7 @@ export interface OrderItem {
   productTitle: string;
   productImage: string;
   unitPrice: number;
+  priceAtTime?: number;
   quantity: number;
 }
 

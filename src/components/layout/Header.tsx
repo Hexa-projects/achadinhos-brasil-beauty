@@ -1,13 +1,15 @@
 import { Link } from "@tanstack/react-router";
 import { Search, ShoppingBag } from "lucide-react";
 import { useCartStore } from "@/stores/useCartStore";
+import { useScrollDirection } from "@/hooks/useScrollDirection";
 import logoSrc from "@/assets/logo.png";
 
 export function Header({ onSearchOpen, onCartOpen }: { onSearchOpen?: () => void; onCartOpen?: () => void }) {
   const totalItems = useCartStore((s) => s.totalItems());
+  const hidden = useScrollDirection();
 
   return (
-    <header className="sticky top-0 z-40 border-b border-border bg-card/95 backdrop-blur-md">
+    <header className={`sticky top-0 z-40 border-b border-border bg-card/95 backdrop-blur-md transition-transform duration-300 ${hidden ? "-translate-y-full" : "translate-y-0"}`}>
       <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4">
         <Link to="/" className="flex items-center gap-2" aria-label="Início">
           <img src={logoSrc} alt="Achadinhos Brasil" className="h-9 w-9 rounded-lg object-cover" />
