@@ -9,17 +9,25 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as KitsRouteImport } from './routes/kits'
 import { Route as ContaRouteImport } from './routes/conta'
 import { Route as CheckoutRouteImport } from './routes/checkout'
 import { Route as BuscarRouteImport } from './routes/buscar'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProdutoSlugRouteImport } from './routes/produto.$slug'
+import { Route as NichoSlugRouteImport } from './routes/nicho.$slug'
 import { Route as ContaPedidosRouteImport } from './routes/conta.pedidos'
 import { Route as ContaDadosRouteImport } from './routes/conta.dados'
+import { Route as ColecaoSlugRouteImport } from './routes/colecao.$slug'
 import { Route as CheckoutSucessoRouteImport } from './routes/checkout.sucesso'
 import { Route as CheckoutCanceladoRouteImport } from './routes/checkout.cancelado'
 
+const KitsRoute = KitsRouteImport.update({
+  id: '/kits',
+  path: '/kits',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ContaRoute = ContaRouteImport.update({
   id: '/conta',
   path: '/conta',
@@ -50,6 +58,11 @@ const ProdutoSlugRoute = ProdutoSlugRouteImport.update({
   path: '/produto/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const NichoSlugRoute = NichoSlugRouteImport.update({
+  id: '/nicho/$slug',
+  path: '/nicho/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ContaPedidosRoute = ContaPedidosRouteImport.update({
   id: '/pedidos',
   path: '/pedidos',
@@ -59,6 +72,11 @@ const ContaDadosRoute = ContaDadosRouteImport.update({
   id: '/dados',
   path: '/dados',
   getParentRoute: () => ContaRoute,
+} as any)
+const ColecaoSlugRoute = ColecaoSlugRouteImport.update({
+  id: '/colecao/$slug',
+  path: '/colecao/$slug',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const CheckoutSucessoRoute = CheckoutSucessoRouteImport.update({
   id: '/sucesso',
@@ -77,10 +95,13 @@ export interface FileRoutesByFullPath {
   '/buscar': typeof BuscarRoute
   '/checkout': typeof CheckoutRouteWithChildren
   '/conta': typeof ContaRouteWithChildren
+  '/kits': typeof KitsRoute
   '/checkout/cancelado': typeof CheckoutCanceladoRoute
   '/checkout/sucesso': typeof CheckoutSucessoRoute
+  '/colecao/$slug': typeof ColecaoSlugRoute
   '/conta/dados': typeof ContaDadosRoute
   '/conta/pedidos': typeof ContaPedidosRoute
+  '/nicho/$slug': typeof NichoSlugRoute
   '/produto/$slug': typeof ProdutoSlugRoute
 }
 export interface FileRoutesByTo {
@@ -89,10 +110,13 @@ export interface FileRoutesByTo {
   '/buscar': typeof BuscarRoute
   '/checkout': typeof CheckoutRouteWithChildren
   '/conta': typeof ContaRouteWithChildren
+  '/kits': typeof KitsRoute
   '/checkout/cancelado': typeof CheckoutCanceladoRoute
   '/checkout/sucesso': typeof CheckoutSucessoRoute
+  '/colecao/$slug': typeof ColecaoSlugRoute
   '/conta/dados': typeof ContaDadosRoute
   '/conta/pedidos': typeof ContaPedidosRoute
+  '/nicho/$slug': typeof NichoSlugRoute
   '/produto/$slug': typeof ProdutoSlugRoute
 }
 export interface FileRoutesById {
@@ -102,10 +126,13 @@ export interface FileRoutesById {
   '/buscar': typeof BuscarRoute
   '/checkout': typeof CheckoutRouteWithChildren
   '/conta': typeof ContaRouteWithChildren
+  '/kits': typeof KitsRoute
   '/checkout/cancelado': typeof CheckoutCanceladoRoute
   '/checkout/sucesso': typeof CheckoutSucessoRoute
+  '/colecao/$slug': typeof ColecaoSlugRoute
   '/conta/dados': typeof ContaDadosRoute
   '/conta/pedidos': typeof ContaPedidosRoute
+  '/nicho/$slug': typeof NichoSlugRoute
   '/produto/$slug': typeof ProdutoSlugRoute
 }
 export interface FileRouteTypes {
@@ -116,10 +143,13 @@ export interface FileRouteTypes {
     | '/buscar'
     | '/checkout'
     | '/conta'
+    | '/kits'
     | '/checkout/cancelado'
     | '/checkout/sucesso'
+    | '/colecao/$slug'
     | '/conta/dados'
     | '/conta/pedidos'
+    | '/nicho/$slug'
     | '/produto/$slug'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -128,10 +158,13 @@ export interface FileRouteTypes {
     | '/buscar'
     | '/checkout'
     | '/conta'
+    | '/kits'
     | '/checkout/cancelado'
     | '/checkout/sucesso'
+    | '/colecao/$slug'
     | '/conta/dados'
     | '/conta/pedidos'
+    | '/nicho/$slug'
     | '/produto/$slug'
   id:
     | '__root__'
@@ -140,10 +173,13 @@ export interface FileRouteTypes {
     | '/buscar'
     | '/checkout'
     | '/conta'
+    | '/kits'
     | '/checkout/cancelado'
     | '/checkout/sucesso'
+    | '/colecao/$slug'
     | '/conta/dados'
     | '/conta/pedidos'
+    | '/nicho/$slug'
     | '/produto/$slug'
   fileRoutesById: FileRoutesById
 }
@@ -153,11 +189,21 @@ export interface RootRouteChildren {
   BuscarRoute: typeof BuscarRoute
   CheckoutRoute: typeof CheckoutRouteWithChildren
   ContaRoute: typeof ContaRouteWithChildren
+  KitsRoute: typeof KitsRoute
+  ColecaoSlugRoute: typeof ColecaoSlugRoute
+  NichoSlugRoute: typeof NichoSlugRoute
   ProdutoSlugRoute: typeof ProdutoSlugRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/kits': {
+      id: '/kits'
+      path: '/kits'
+      fullPath: '/kits'
+      preLoaderRoute: typeof KitsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/conta': {
       id: '/conta'
       path: '/conta'
@@ -200,6 +246,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProdutoSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/nicho/$slug': {
+      id: '/nicho/$slug'
+      path: '/nicho/$slug'
+      fullPath: '/nicho/$slug'
+      preLoaderRoute: typeof NichoSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/conta/pedidos': {
       id: '/conta/pedidos'
       path: '/pedidos'
@@ -213,6 +266,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/conta/dados'
       preLoaderRoute: typeof ContaDadosRouteImport
       parentRoute: typeof ContaRoute
+    }
+    '/colecao/$slug': {
+      id: '/colecao/$slug'
+      path: '/colecao/$slug'
+      fullPath: '/colecao/$slug'
+      preLoaderRoute: typeof ColecaoSlugRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/checkout/sucesso': {
       id: '/checkout/sucesso'
@@ -263,6 +323,9 @@ const rootRouteChildren: RootRouteChildren = {
   BuscarRoute: BuscarRoute,
   CheckoutRoute: CheckoutRouteWithChildren,
   ContaRoute: ContaRouteWithChildren,
+  KitsRoute: KitsRoute,
+  ColecaoSlugRoute: ColecaoSlugRoute,
+  NichoSlugRoute: NichoSlugRoute,
   ProdutoSlugRoute: ProdutoSlugRoute,
 }
 export const routeTree = rootRouteImport

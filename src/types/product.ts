@@ -12,7 +12,11 @@ export interface NormalizedProduct {
   discountPercentage?: number | null;
   currency: "BRL";
   category?: string;
+  niche?: "skincare" | "make" | "cabelos" | "corpo";
+  collections?: string[];
   badge?: string;
+  badges?: string[];
+  isHero?: boolean;
   isTrending?: boolean;
   rating?: number;
   reviewCount?: number;
@@ -72,4 +76,27 @@ export interface OrderItem {
 export interface CartItem {
   product: NormalizedProduct;
   quantity: number;
+}
+
+export interface Bundle {
+  id: string;
+  slug: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  niche: "skincare" | "make" | "cabelos" | "corpo";
+  productIds: string[];
+  bundlePrice: number;
+  image: string;
+  badge?: string;
+}
+
+export interface Collection {
+  slug: string;
+  title: string;
+  eyebrow: string;
+  manifesto: string;
+  niche: "skincare" | "make" | "cabelos" | "corpo" | "all";
+  productIds: string[];
+  image: string;
 }
