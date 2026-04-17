@@ -2,6 +2,7 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { mockProducts, mockCollections } from "@/data/mockProducts";
 import { ProductCard } from "@/components/product/ProductCard";
+import type { NormalizedProduct } from "@/types/product";
 
 export const Route = createFileRoute("/colecao/$slug")({
   loader: ({ params }) => {
@@ -29,9 +30,9 @@ export const Route = createFileRoute("/colecao/$slug")({
 
 function CollectionPage() {
   const c = Route.useLoaderData();
-  const products = c.productIds
-    .map((id) => mockProducts.find((p) => p.id === id))
-    .filter((p): p is NonNullable<typeof p> => Boolean(p));
+  const products: NormalizedProduct[] = c.productIds
+    .map((id: string) => mockProducts.find((p: NormalizedProduct) => p.id === id))
+    .filter((p: NormalizedProduct | undefined): p is NormalizedProduct => Boolean(p));
 
   return (
     <div className="pb-20">
