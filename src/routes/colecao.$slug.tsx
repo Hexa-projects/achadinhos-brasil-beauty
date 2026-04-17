@@ -30,9 +30,9 @@ export const Route = createFileRoute("/colecao/$slug")({
 
 function CollectionPage() {
   const c = Route.useLoaderData();
-  const products = c.productIds
-    .map((id: string) => mockProducts.find((p) => p.id === id))
-    .filter((p): p is (typeof mockProducts)[number] => Boolean(p));
+  const products: NormalizedProduct[] = c.productIds
+    .map((id: string) => mockProducts.find((p: NormalizedProduct) => p.id === id))
+    .filter((p: NormalizedProduct | undefined): p is NormalizedProduct => Boolean(p));
 
   return (
     <div className="pb-20">
