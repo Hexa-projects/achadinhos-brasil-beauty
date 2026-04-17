@@ -38,8 +38,8 @@ export function CategoryShowcaseGrid() {
             transition={{ duration: 0.5, delay: i * 0.06, ease: [0.22, 1, 0.36, 1] }}
           >
             <Link
-              to="/buscar"
-              search={{ q: c.query }}
+              to="/nicho/$slug"
+              params={{ slug: c.slug }}
               className="group block overflow-hidden rounded-2xl bg-warm shadow-soft transition-all duration-500 hover:shadow-premium"
             >
               <div className="relative aspect-[4/5] overflow-hidden">
