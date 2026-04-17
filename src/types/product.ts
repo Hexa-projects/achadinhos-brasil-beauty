@@ -12,7 +12,11 @@ export interface NormalizedProduct {
   discountPercentage?: number | null;
   currency: "BRL";
   category?: string;
+  niche?: "skincare" | "make" | "cabelos" | "corpo";
+  collections?: string[];
   badge?: string;
+  badges?: string[];
+  isHero?: boolean;
   isTrending?: boolean;
   rating?: number;
   reviewCount?: number;
