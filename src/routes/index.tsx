@@ -70,6 +70,9 @@ function HomePage() {
         {/* 7. Differentiation */}
         <ComparisonBenefitsGrid />
 
+        {/* 7b. Kits showcase */}
+        <KitsShowcase />
+
         {/* 8. Make vitrine */}
         <BestSellersCarousel
           eyebrow="Make presença"
