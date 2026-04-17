@@ -1,18 +1,16 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Star, Shield, Truck, RefreshCw, ShoppingBag } from "lucide-react";
-import { mockProducts } from "@/data/mockProducts";
-import { mockReviews } from "@/data/mockProducts";
+import { mockProducts, mockReviews } from "@/data/mockProducts";
 import { ProductGallery } from "@/components/product/ProductGallery";
-import { ProductPrice } from "@/components/product/ProductPrice";
 import { ProductInfoAccordion } from "@/components/product/ProductInfoAccordion";
 import { StickyBuyBar } from "@/components/product/StickyBuyBar";
+import { EnhancedBuyBox } from "@/components/product/EnhancedBuyBox";
+import { VisualBenefits } from "@/components/product/VisualBenefits";
 import { ReviewsSection } from "@/components/reviews/ReviewsSection";
 import { ProductCard } from "@/components/product/ProductCard";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import { useCartStore } from "@/stores/useCartStore";
-import { formatCurrency, formatInstallments } from "@/utils/formatCurrency";
 import { EmptyState } from "@/components/shared/EmptyState";
 import { toast } from "sonner";
 
@@ -25,6 +23,7 @@ export const Route = createFileRoute("/produto/$slug")({
         { name: "description", content: product?.shortDescription || "" },
         { property: "og:title", content: product?.title || "Produto" },
         { property: "og:description", content: product?.shortDescription || "" },
+        ...(product?.images[0] ? [{ property: "og:image", content: product.images[0] }] : []),
       ],
     };
   },
@@ -55,63 +54,58 @@ function ProductPage() {
   };
 
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="pb-36 md:pb-8">
-      <div className="mx-auto max-w-6xl px-4 py-4">
-        <div className="md:grid md:grid-cols-2 md:gap-8">
-          {/* Gallery */}
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="pb-36 md:pb-12">
+      <div className="mx-auto max-w-6xl px-4 py-6 sm:py-8">
+        {/* Top: gallery + buy box */}
+        <div className="md:grid md:grid-cols-2 md:gap-12">
           <ProductGallery images={product.images} title={product.title} />
-
-          {/* Info */}
-          <div className="mt-4 space-y-4 md:mt-0">
-            {product.brand && <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">{product.brand}</p>}
-            <h1 className="text-xl font-bold tracking-tight text-foreground sm:text-2xl">{product.title}</h1>
-            {product.subtitle && <p className="text-sm text-muted-foreground">{product.subtitle}</p>}
-
-            {product.rating && (
-              <div className="flex items-center gap-1.5">
-                <div className="flex gap-0.5">
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <Star key={i} size={14} className={i < Math.round(product.rating!) ? "fill-amber-400 text-amber-400" : "text-border"} />
-                  ))}
-                </div>
-                <span className="text-xs text-muted-foreground">({product.reviewCount})</span>
-              </div>
-            )}
-
-            <ProductPrice price={product.price} compareAtPrice={product.compareAtPrice} discountPercentage={product.discountPercentage} />
-            {product.price >= 30 && <p className="text-xs text-muted-foreground">{formatInstallments(product.price)}</p>}
-
-            {/* Trust line */}
-            <div className="flex flex-wrap gap-4 rounded-xl bg-secondary p-3">
-              <span className="flex items-center gap-1.5 text-xs text-muted-foreground"><Shield size={14} className="text-primary" />Compra segura</span>
-              <span className="flex items-center gap-1.5 text-xs text-muted-foreground"><Truck size={14} className="text-primary" />Entrega acompanhada</span>
-              <span className="flex items-center gap-1.5 text-xs text-muted-foreground"><RefreshCw size={14} className="text-primary" />Trocas facilitadas</span>
-            </div>
-
-            {/* Desktop buy button */}
-            <div className="hidden md:block">
-              <button onClick={handleAdd} className="btn-cta btn-cta-pulse flex h-12 w-full items-center justify-center gap-2 text-sm font-semibold">
-                <ShoppingBag size={16} />
-                Adicionar à Sacola · {formatCurrency(product.price * qty)}
-              </button>
-            </div>
-
-            {product.shortDescription && <p className="text-sm leading-relaxed text-muted-foreground">{product.shortDescription}</p>}
-
-            <ProductInfoAccordion benefits={product.benefits} howToUse={product.howToUse} technicalSpecs={product.technicalSpecs} />
+          <div className="mt-6 md:mt-0">
+            <EnhancedBuyBox product={product} quantity={qty} onQuantityChange={setQty} onAdd={handleAdd} />
           </div>
         </div>
 
+        {/* Visual benefits */}
+        <div className="mt-12 sm:mt-16">
+          <VisualBenefits benefits={product.benefits} />
+        </div>
+
+        {/* Description */}
+        {product.description && (
+          <div className="mt-12 grid gap-8 sm:mt-16 md:grid-cols-3 md:gap-12">
+            <div>
+              <p className="editorial-eyebrow">Sobre o produto</p>
+              <h2 className="mt-1.5 text-balance text-2xl font-semibold tracking-tight text-ink">
+                Feito para resultado real
+              </h2>
+            </div>
+            <div className="md:col-span-2">
+              <p className="text-[15px] leading-relaxed text-foreground">{product.description}</p>
+              {product.shortDescription && (
+                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{product.shortDescription}</p>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Accordion: detalhes técnicos */}
+        <div className="mt-12 sm:mt-16">
+          <ProductInfoAccordion benefits={product.benefits} howToUse={product.howToUse} technicalSpecs={product.technicalSpecs} />
+        </div>
+
         {/* Reviews */}
-        <div className="mt-8">
+        <div id="avaliacoes" className="mt-12 scroll-mt-20 sm:mt-16">
           <ReviewsSection reviews={reviews} rating={product.rating} count={product.reviewCount} />
         </div>
 
         {/* Cross-sell */}
         {crossSell.length > 0 && (
-          <div className="mt-8">
-            <SectionHeading title="Você também pode gostar" />
-            <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide sm:grid sm:grid-cols-4 sm:overflow-visible">
+          <div className="mt-12 sm:mt-16">
+            <SectionHeading
+              eyebrow="Você também pode gostar"
+              title="Combine sua rotina"
+              subtitle="Selecionados a dedo para quem gosta deste produto."
+            />
+            <div className="-mx-4 flex gap-4 overflow-x-auto px-4 pb-2 scrollbar-hide sm:mx-0 sm:grid sm:grid-cols-4 sm:gap-5 sm:overflow-visible sm:px-0">
               {crossSell.map((p) => <ProductCard key={p.id} product={p} />)}
             </div>
           </div>
