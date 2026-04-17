@@ -9,6 +9,7 @@ import { EditorialCollectionSpotlight } from "@/components/home/EditorialCollect
 import { ComparisonBenefitsGrid } from "@/components/home/ComparisonBenefitsGrid";
 import { TestimonialsBeautySection } from "@/components/home/TestimonialsBeautySection";
 import { PremiumFAQ } from "@/components/home/PremiumFAQ";
+import { KitsShowcase } from "@/components/home/KitsShowcase";
 import { EditorialFooter } from "@/components/layout/EditorialFooter";
 
 export const Route = createFileRoute("/")({
@@ -68,6 +69,9 @@ function HomePage() {
 
         {/* 7. Differentiation */}
         <ComparisonBenefitsGrid />
+
+        {/* 7b. Kits showcase */}
+        <KitsShowcase />
 
         {/* 8. Make vitrine */}
         <BestSellersCarousel

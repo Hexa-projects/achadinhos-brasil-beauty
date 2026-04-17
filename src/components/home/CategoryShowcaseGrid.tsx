@@ -7,11 +7,11 @@ import cabelosImg from "@/assets/cat-cabelos.jpg";
 import corpoImg from "@/assets/cat-corpo.jpg";
 
 const categories = [
-  { title: "Skincare", subtitle: "Rotinas que iluminam", image: skincareImg, query: "Skincare" },
-  { title: "Make", subtitle: "Beleza com presença", image: makeImg, query: "Make" },
-  { title: "Cabelos", subtitle: "Brilho e reparação", image: cabelosImg, query: "Cabelos" },
-  { title: "Corpo & Bem-estar", subtitle: "Autocuidado diário", image: corpoImg, query: "Corpo" },
-];
+  { title: "Skincare", subtitle: "Rotinas que iluminam", image: skincareImg, slug: "skincare" },
+  { title: "Make", subtitle: "Beleza com presença", image: makeImg, slug: "make" },
+  { title: "Cabelos", subtitle: "Brilho e reparação", image: cabelosImg, slug: "cabelos" },
+  { title: "Corpo & Bem-estar", subtitle: "Autocuidado diário", image: corpoImg, slug: "corpo" },
+] as const;
 
 export function CategoryShowcaseGrid() {
   return (
@@ -38,8 +38,8 @@ export function CategoryShowcaseGrid() {
             transition={{ duration: 0.5, delay: i * 0.06, ease: [0.22, 1, 0.36, 1] }}
           >
             <Link
-              to="/buscar"
-              search={{ q: c.query }}
+              to="/nicho/$slug"
+              params={{ slug: c.slug }}
               className="group block overflow-hidden rounded-2xl bg-warm shadow-soft transition-all duration-500 hover:shadow-premium"
             >
               <div className="relative aspect-[4/5] overflow-hidden">
