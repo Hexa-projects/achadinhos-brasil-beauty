@@ -2,6 +2,7 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { mockProducts, mockCollections } from "@/data/mockProducts";
 import { ProductCard } from "@/components/product/ProductCard";
+import type { NormalizedProduct } from "@/types/product";
 
 export const Route = createFileRoute("/colecao/$slug")({
   loader: ({ params }) => {
